@@ -26,8 +26,8 @@ if(!session?.user) {
           will generate a course for you!
         </div>
       </div>
-{/* 
-      <CreateCourseForm /> */}
+
+      <CreateCourseForm />
     </div>
   );
 }

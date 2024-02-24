@@ -62,3 +62,41 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Course{
+  id String @id @default(cuid())  
+  name String
+  image String
+  units Unit[]
+}
+
+model Unit{
+  id String @id @default(cuid())
+  name String
+ 
+  course Course @relation(fields: [courseId], references: [id])
+  courseId String
+  chapter Chapter[]
+  @@index([courseId],name:"courseId")
+}
+
+model Chapter{
+  id String @id @default(cuid())
+  name String
+  unit Unit @relation(fields: [unitId], references: [id])
+  unitId String
+  youtubeSearchQuery String
+  videoId String?
+  summary String? @db.VarChar(3000)
+  questions Question[]
+  @@index([unitId],name:"unitId")
+} 
+model Question{
+  id String @id @default(cuid())
+  chapterId String
+  question String @db.VarChar(3000)
+  answer String @db.VarChar(3000)
+  options String @db.VarChar(3000)
+  chapter Chapter @relation(fields: [chapterId], references: [id])
+  @@index([chapterId],name:"chapterId")
+}
