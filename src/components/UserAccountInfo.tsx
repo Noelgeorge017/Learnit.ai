@@ -14,6 +14,7 @@ import { LogOut } from "lucide-react";
 import UserAvatar from "./UserAvatar";
 
 
+
 type Props = {
   user: User;
 };
