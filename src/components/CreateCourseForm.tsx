@@ -19,13 +19,13 @@ import axios from "axios";
 type Props = {};
 type Input = z.infer<typeof courseSchema>;
 
-const CreateCourseForm =   (props: Props) => {
+const CreateCourseForm = (props: Props) => {
   const [file, setFile] = React.useState<File | null>(null);
   const form = useForm<Input>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
       title: "",
-      units: ["", "", ""],
+      units: [],
     },
   });
   const router = useRouter();
@@ -38,25 +38,23 @@ const CreateCourseForm =   (props: Props) => {
       if (file) {
         s3_url = await uploadToS3(file);
         console.log("s3_url", s3_url);
-      }
-      const data = {
-        url: s3_url,
-      };
-      //
-      try {
-        const res = await axios.post(
-          "https://learnit-ai-backend.onrender.com/extract-pdf",
-          data
-        );
-        console.log("summarised_text", res.data.extractedText.content);
-        summarised_text = res.data.extractedText.content;
-      } catch (error) {
-        summarised_text = null;
-      }
 
-      //
-
-      // return;
+        const data = {
+          url: s3_url,
+        };
+        //
+        try {
+          const res = await axios.post(
+            "https://learnit-ai-backend.onrender.com/extract-pdf",
+            data
+          );
+          // console.log("summarised_text", res.data.extractedText.content);
+          summarised_text = res.data.extractedText.content;
+        } catch (error) {
+          summarised_text = null;
+        }
+      }
+    
       const payload = {
         units,
         title,

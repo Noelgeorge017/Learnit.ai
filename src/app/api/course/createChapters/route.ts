@@ -21,7 +21,7 @@ export async function POST(req: Request, res: Response) {
     }[];
     console.log(units);
     console.log(title);
-    console.log(summarised_text);
+    // console.log(summarised_text);
     let sample_units: outputUnits = [
       {
         title: "Unit 1: Introduction to Calculus",
@@ -51,24 +51,39 @@ export async function POST(req: Request, res: Response) {
       },
     ];
 
-    // return res.json(sample_units);
+    // const textUnit = summarised_text ? summarised_text : units;
+    // console.log(textUnit);
 
-    //openai response
-
-    let output_units: outputUnits = await strict_output(
-      "you are an AI capable of  curating course content coming up relevant chapter titles for a course , finding  relevant youtube videos for each chapter  ",
-      new Array(3).fill(
-        `	It is your job to create a course about ${title} and from taking inspiration from the summarised content :${
-          "\n" + summarised_text + "\n\n"
-        }  
-       The user has requested to create chapters for each of the above units. Then, for each chapter, provide a detailed youtube search query that can be used to find an informative educational video for each chapter. Each query should give an educational informative course in youtube.`
-      ),
-      {
-        title: "title of the unit",
-        chapters:
-          "an array of chapters, each chapter should have a youtube_search_query and a chapter_title key in the JSON object",
-      }
-    );
+    let output_units: outputUnits = [];
+    if (!summarised_text) {
+      output_units= await strict_output(
+        "you are an AI capable of  curating course content coming up relevant chapter titles for a course , finding  relevant youtube videos for each chapter  ",
+        new Array(units.length).fill(
+          `	It is your job to create a course about ${title} and from taking inspiration from the summarised content :\n ${units}  
+       \n The user has requested to create chapters for each of the above units.The name or title of the units must be unique. Then, for each chapter, provide a detailed youtube search query that can be used to find an informative educational video for each chapter. Each query should give an educational informative course in youtube.`
+        ),
+        {
+          title: "title of the unit",
+          chapters:
+            "an array of chapters, each chapter should have a youtube_search_query and a chapter_title key in the JSON object",
+        }
+      );
+    } else {
+      output_units = await strict_output(
+        "you are an AI capable of  curating course content coming up relevant chapter titles for a course , finding  relevant youtube videos for each chapter  ",
+        new Array(1).fill(
+          `	It is your job to create a course about ${title} and from taking inspiration from the summarised content :${
+            "\n" + summarised_text + "\n\n"
+          }  
+       The user has requested to create chapters for each of the above units.The name or title of the units must be unique. Then, for each chapter, provide a detailed youtube search query that can be used to find an informative educational video for each chapter. Each query should give an educational informative course in youtube.`
+        ),
+        {
+          title: "title of the unit",
+          chapters:
+            "an array of chapters of length at least 3 , each chapter should have a youtube_search_query and a chapter_title key in the JSON object",
+        }
+      );
+    }
 
     const imageSearchTerm = await strict_output(
       "you are an AI capable of finding the most relevant image for a course",
