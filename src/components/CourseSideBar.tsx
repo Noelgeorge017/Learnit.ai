@@ -30,8 +30,9 @@ const CourseSideBar = async ({ course, currentChapterId }: Props) => {
                   <Link
                     href={`/course/${course.id}/${unitIndex}/${chapterIndex}`}
                     className={cn("text-secondary-foreground/60", {
-                      "text-green-500 font-bold":
-                        chapter.id === currentChapterId,
+                      "text-green-600 font-bold":
+                        chapter.completed === true,
+                        "text-blue-500": chapter.id === currentChapterId,
                     })}
                   >
                     {chapter.name}

@@ -19,8 +19,8 @@ export async function POST(req: Request, res: Response) {
         chapter_title: string;
       }[];
     }[];
-    console.log(units);
-    console.log(title);
+    // console.log(units);
+    // console.log(title);
     // console.log(summarised_text);
     let sample_units: outputUnits = [
       {

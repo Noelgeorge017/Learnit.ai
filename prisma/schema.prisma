@@ -88,7 +88,9 @@ model Chapter{
   youtubeSearchQuery String
   videoId String?
   summary String? @db.VarChar(3000)
+  completed Boolean @default(false)
   questions Question[]
+
   @@index([unitId],name:"unitId")
 } 
 model Question{
@@ -100,3 +102,4 @@ model Question{
   chapter Chapter @relation(fields: [chapterId], references: [id])
   @@index([chapterId],name:"chapterId")
 }
+

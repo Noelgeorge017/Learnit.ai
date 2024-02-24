@@ -14,6 +14,7 @@ type Props = {
   };
 };
 
+
 const CoursePage = async ({ params: { slug } }: Props) => {
   const [courseId, unitIndexParam, chapterIndexParam] = slug;
   const course = await prisma.course.findUnique({
@@ -44,6 +45,7 @@ const CoursePage = async ({ params: { slug } }: Props) => {
   }
   const nextChapter = unit.chapter[chapterIndex + 1];
   const prevChapter = unit.chapter[chapterIndex - 1];
+  console.log(chapter.id)
   return (
     <div>
       <CourseSideBar course={course} currentChapterId={chapter.id} />;
@@ -51,6 +53,7 @@ const CoursePage = async ({ params: { slug } }: Props) => {
         <div className="ml-[400px] px-8">
           <div className="flex">
             <MainVideoSummary
+            course={course}
               chapter={chapter}
               chapterIndex={chapterIndex}
               unit={unit}
