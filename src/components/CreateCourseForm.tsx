@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Plus, Trash, Upload } from "lucide-react";
+import { Loader2, Plus, Trash, Upload } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMutation } from "@tanstack/react-query";
@@ -225,7 +225,14 @@ const CreateCourseForm = (props: Props) => {
             className="w-full mt-6"
             size="lg"
           >
-            Lets Go!
+            {isPending ? (
+              <span className="flex">
+                Please wait while we create the course
+                <Loader2 className=" w-4 h-4 animate-spin ml-4" />
+              </span>
+            ) : (
+              "Lets Go!"
+            )}
           </Button>
         </form>
       </Form>

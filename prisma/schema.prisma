@@ -88,6 +88,7 @@ model Chapter{
   youtubeSearchQuery String
   videoId String?
   summary String? @db.VarChar(3000)
+  mindmap_url String?    @db.VarChar(3000)
   completed Boolean @default(false)
   questions Question[]
 

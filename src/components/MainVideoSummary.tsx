@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import Image from "next/image";
+import { Button } from "./ui/button";
 
 type Props = {
   course: Course;
@@ -38,8 +40,20 @@ const MainVideoSummary = ({
       return response.data;
     },
   });
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
 
-  //
+  const handleButtonClick = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/api/generate", {
+        content: chapter.summary,
+      });
+      console.log(response);
+      setImageSrc(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
 
   const handleCheckboxChange = () => {
     const newValue = !isChecked;
@@ -83,6 +97,16 @@ const MainVideoSummary = ({
         </div>
 
         <p className="mt-2 text-secondary-foreground/80">{chapter.summary}</p>
+      </div>
+      <div className="mt-4">
+        <Button onClick={handleButtonClick} className="btn-primary">
+          Generate MindMap
+        </Button>
+        {imageSrc && (
+          <div className="mt-4">
+            <Image src={imageSrc} alt="Summary Image" width={1500} height={1500} />
+          </div>
+        )}
       </div>
     </div>
   );
