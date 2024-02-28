@@ -32,7 +32,7 @@ export async function POST(req: Request, res: Response) {
         { status: 404 }
       );
     }
-    const videoId = await searchYoutube(chapter.youtubeSearchQuery);
+    const videoId = await searchYoutube(chapter.youtubeSearchQuery,chapter.language);
     let transcript = await getTranscript(videoId);
     let maxLength = 500;
     transcript = transcript.split(" ").slice(0, maxLength).join(" ");

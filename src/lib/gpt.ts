@@ -130,8 +130,8 @@ export async function strict_output(
       return list_input ? output : output[0];
     } catch (e) {
       error_msg = `\n\nResult: ${res}\n\nError message: ${e}`;
-      console.log("An exception occurred:", e);
-      console.log("Current invalid json format ", res);
+      // console.log("An exception occurred:", e);
+      // console.log("Current invalid json format ", res);
     }
   }
  

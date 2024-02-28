@@ -91,6 +91,7 @@ model Chapter{
   mindmap_url String?    @db.VarChar(3000)
   completed Boolean @default(false)
   questions Question[]
+  language String @default("en")
 
   @@index([unitId],name:"unitId")
 } 

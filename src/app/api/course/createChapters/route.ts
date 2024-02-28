@@ -10,8 +10,10 @@ import { ZodError } from "zod";
 export async function POST(req: Request, res: Response) {
   try {
     const body = await req.json();
-    const { units, title } = courseSchema.parse(body);
+    const { units, title,lang,edlevel } = courseSchema.parse(body);
     let summarised_text: string | null = body.summarised_text ?? null;
+    
+
     type outputUnits = {
       title: string;
       chapters: {
@@ -22,6 +24,8 @@ export async function POST(req: Request, res: Response) {
     // console.log(units);
     // console.log(title);
     // console.log(summarised_text);
+    console.log(lang);
+    console.log(edlevel);
     let sample_units: outputUnits = [
       {
         title: "Unit 1: Introduction to Calculus",
@@ -51,16 +55,15 @@ export async function POST(req: Request, res: Response) {
       },
     ];
 
-    // const textUnit = summarised_text ? summarised_text : units;
-    // console.log(textUnit);
+   
 
     let output_units: outputUnits = [];
     if (!summarised_text) {
-      output_units= await strict_output(
+      output_units = await strict_output(
         "you are an AI capable of  curating course content coming up relevant chapter titles for a course , finding  relevant youtube videos for each chapter  ",
         new Array(units.length).fill(
           `	It is your job to create a course about ${title} and from taking inspiration from the units given, it is compulsary to include the units mentioned:\n ${units}  
-       \n The user has requested to create chapters for each of the above units.The name or title of the units must be unique. Then, for each chapter, provide a detailed youtube search query that can be used to find an informative educational video for each chapter. Each query should give an educational informative course in youtube.`
+       \n The user has requested to create chapters for each of the above units.The name or title of the units must be unique. Then, for each chapter, provide a detailed youtube search query  which should  mention ${edlevel}  which is used mention the users education level and this youtube search query can be used to find an informative educational video for each chapter. Each query should give an educational informative course in youtube.`
         ),
         {
           title: "title of the unit",
@@ -71,11 +74,11 @@ export async function POST(req: Request, res: Response) {
     } else {
       output_units = await strict_output(
         "you are an AI capable of  curating course content coming up relevant chapter titles for a course , finding  relevant youtube videos for each chapter  ",
-        new Array(1).fill(
+        new Array(2).fill(
           `	It is your job to create a course about ${title} and from taking inspiration from the summarised content :${
             "\n" + summarised_text + "\n\n"
           }  
-       The user has requested to create chapters for each of the above units.The name or title of the units must be unique. Then, for each chapter, provide a detailed youtube search query that can be used to find an informative educational video for each chapter. Each query should give an educational informative course in youtube.`
+          The user has requested to create chapters for each of the above units.The name or title of the units must be unique. Then, for each chapter, provide a detailed youtube search query  which should    mention ${edlevel}  which is used mention the users education level and this youtube search query can be used to find an informative educational video for each chapter. Each query should give an educational informative course in youtube.`
         ),
         {
           title: "title of the unit",
@@ -103,6 +106,7 @@ export async function POST(req: Request, res: Response) {
       },
     });
     for (const unit of output_units) {
+      console.log(unit.chapters)
       const title = unit.title;
       const prismaUnit = await prisma.unit.create({
         data: {
@@ -116,12 +120,14 @@ export async function POST(req: Request, res: Response) {
             name: chapter.chapter_title,
             youtubeSearchQuery: chapter.youtube_search_query,
             unitId: prismaUnit.id,
+            language: lang,
           };
         }),
       });
     }
-    // console.log(imageSearchTerm);
-    // console.log(output_units);
+    
+
+     
     return NextResponse.json({ course_id: course.id });
   } catch (error) {
     if (error instanceof ZodError) {

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { z } from "zod";
 import { courseSchema } from "@/validators/course";
@@ -15,30 +15,38 @@ import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
 import { uploadToS3 } from "@/lib/s3";
 import axios from "axios";
-
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 type Props = {};
 type Input = z.infer<typeof courseSchema>;
 
 const CreateCourseForm = (props: Props) => {
-  const [file, setFile] = React.useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const form = useForm<Input>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
       title: "",
       units: [],
+      lang: "en",
+      edlevel: "Btech CSE",
     },
   });
   const router = useRouter();
-
   const { toast } = useToast();
   const { mutate: createChapters, isPending } = useMutation({
-    mutationFn: async ({ title, units }: Input) => {
+    mutationFn: async ({ title, units, lang,edlevel }: Input) => {
       let s3_url = null;
       let summarised_text = null;
       if (file) {
         s3_url = await uploadToS3(file);
         console.log("s3_url", s3_url);
-
         const data = {
           url: s3_url,
         };
@@ -54,12 +62,14 @@ const CreateCourseForm = (props: Props) => {
           summarised_text = null;
         }
       }
-    
       const payload = {
         units,
         title,
+        lang,
         summarised_text,
+        edlevel
       };
+      console.log(payload);
       const response = await axios.post("/api/course/createChapters", payload);
       return response.data;
     },
@@ -112,7 +122,57 @@ const CreateCourseForm = (props: Props) => {
               );
             }}
           />
-
+          <FormField
+            control={form.control}
+            name="lang"
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-start w-full sm:items-center sm:flex-row">
+                <FormLabel className="flex-[1] text-xl mr-2">
+                  Language
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl className="flex-[6]">
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a Language" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="en">English</SelectItem>
+                    <SelectItem value="hi">Hindi</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="edlevel"
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-start w-full sm:items-center sm:flex-row">
+                <FormLabel className="flex-[1] text-xl mr-2">
+                  Education
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl className="flex-[6]">
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a Education Level" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Btech CSE">Btech CSE</SelectItem>
+                    <SelectItem value="Btech EEE">Btech EEE</SelectItem>
+                    <SelectItem value="Class 12">Class 12</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
           <AnimatePresence>
             {form.watch("units").map((_, index) => {
               return (
@@ -150,7 +210,6 @@ const CreateCourseForm = (props: Props) => {
               );
             })}
           </AnimatePresence>
-
           <div className="flex items-center justify-center mt-6">
             <Separator className="flex-[1]" />
             <div className="mx-4">
@@ -197,8 +256,10 @@ const CreateCourseForm = (props: Props) => {
                 Upload PDF <Upload className="w-4 h-4 ml-2 " />
               </Button>
             </div>
+
             <Separator className="flex-[1]" />
           </div>
+
           {file && (
             <div className="flex items-center justify-center mt-4">
               <Separator className="flex-[1]" />
@@ -210,6 +271,7 @@ const CreateCourseForm = (props: Props) => {
                   className="ml-2 font-semibold"
                   onClick={() => {
                     setFile(null);
+                    console.log(form.watch());
                   }}
                 >
                   Remove File <Trash className="w-4 h-4 ml-2 text-red-500" />
