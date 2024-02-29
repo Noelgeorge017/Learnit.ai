@@ -38,7 +38,7 @@ export async function POST(req: Request, res: Response) {
     transcript = transcript.split(" ").slice(0, maxLength).join(" ");
 
     const { summary }: { summary: string } = await strict_output(
-      `You are an AI capable of summarising a youtube transcript in 250 words or less .`,
+      `You are an AI capable of summarising a youtube transcript in 250 words or less and you need to translate it to the language ISO 639-1 Code as ${chapter.language}.`,
       `summarise in 250 words and translate it to the  language ISO 639-1 Code as ${chapter.language}  and do not talk of the sponsors or anything unrelated to the main topic, also do not introduce what the summary is about.\n `+
         transcript,
       { summary: "summary of the transcript" }

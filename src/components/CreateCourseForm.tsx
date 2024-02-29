@@ -35,7 +35,7 @@ const CreateCourseForm = (props: Props) => {
       title: "",
       units: [],
       lang: "en",
-      edlevel: "Btech CSE",
+      edlevel: "General",
     },
   });
   const router = useRouter();
@@ -167,6 +167,7 @@ const CreateCourseForm = (props: Props) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
+                  <SelectItem value="General">General</SelectItem>
                     <SelectItem value="Btech CSE">Btech CSE</SelectItem>
                     <SelectItem value="Btech EEE">Btech EEE</SelectItem>
                     <SelectItem value="Class 12">Class 12</SelectItem>
