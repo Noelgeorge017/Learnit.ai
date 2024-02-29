@@ -63,7 +63,7 @@ export async function POST(req: Request, res: Response) {
         "you are an AI capable of  curating course content coming up relevant chapter titles for a course , finding  relevant youtube videos for each chapter  ",
         new Array(units.length).fill(
           `	It is your job to create a course about ${title} and from taking inspiration from the units given, it is compulsary to include the units mentioned:\n ${units}  
-       \n The user has requested to create chapters for each of the above units.The name or title of the units must be unique. Then, for each chapter, provide a detailed youtube search query  which should  mention ${edlevel}  which is used mention the users education level and this youtube search query can be used to find an informative educational video for each chapter. Each query should give an educational informative course in youtube.`
+       \n The user has requested to create chapters for each of the above units the units being ${units}\n.The name or title of the units must be unique and the title should be generated and translated to the user given language ISO 639-1 Code as ${lang}. Then, for each chapter, provide a detailed youtube search query in English  which should  mention ${edlevel}  which is used mention the users education level and the youtube search query should not have the text educational video  and this youtube search query can be used to find an informative educational video for each chapter but the youtube search query must not have the text educational video in it. Each query should give an educational informative course in youtube.`
         ),
         {
           title: "title of the unit",

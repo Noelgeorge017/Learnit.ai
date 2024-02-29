@@ -6,7 +6,7 @@ export async function searchYoutube(searchQuery: string,language:string) {
 
     searchQuery = encodeURIComponent(searchQuery);
     const { data } = await axios.get(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&key=${process.env.YOUTUBE_API_KEY}&q=${searchQuery}&videoDuration=medium&videoEmbeddable=true&type=video&maxResults=3&relevanceLanguage=${language}`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&key=${process.env.YOUTUBE_API_KEY}&q=${searchQuery}&videoCaption=closedCaption&videoDuration=medium&videoEmbeddable=true&type=video&maxResults=3&relevanceLanguage=${language}`
     );
     if (!data) {
       console.log("youtube fail");
@@ -34,7 +34,8 @@ export async function searchYoutube(searchQuery: string,language:string) {
       }
       export async function getQuestionsFromTranscript(
         transcript: string,
-        course_title: string
+        course_title: string,
+        language: string
       ) {
         type Question = {
           question: string;
@@ -44,9 +45,9 @@ export async function searchYoutube(searchQuery: string,language:string) {
           option3: string;
         };
         const questions: Question[] = await strict_output(
-          "You are a helpful AI that is able to generate mcq questions and answers, the length of each answer should not be more than 15 words",
-          new Array(1).fill(
-            `You are to generate a random hard mcq question about ${course_title} with context of the following transcript: ${transcript}`
+          `You are a helpful AI that is able to generate mcq questions and answers in the user given language ISO 639-1 Code as ${language} , the length of each answer should not be more than 15 words`,
+          new Array(3).fill(
+            `You are to generate a random hard mcq question in  about ${course_title} with context of the following transcript: ${transcript} in the user given language ISO 639-1 Code as ${language}`
           ),
           {
             question: "question",
