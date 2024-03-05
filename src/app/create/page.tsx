@@ -1,6 +1,7 @@
 import CreateCourseForm from "@/components/CreateCourseForm";
 import { getAuthSession } from "@/lib/auth";
-import { InfoIcon } from "lucide-react";
+import { checkSubscription } from "@/lib/subscription";
+import { Check, InfoIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -8,9 +9,11 @@ type Props = {};
 
 const CreatePage = async (props: Props) => {
   const session = await getAuthSession();
+  
   if (!session?.user) {
     return redirect("/gallery");
   }
+  const isPro = await checkSubscription();
 
   return (
     <div className="flex flex-col items-start max-w-xl px-8 mx-auto my-16 sm:px-0">
@@ -26,7 +29,7 @@ const CreatePage = async (props: Props) => {
         </div>
       </div>
 
-      <CreateCourseForm />
+      <CreateCourseForm isPro = {isPro}/>
     </div>
   );
 };

@@ -24,10 +24,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-type Props = {};
+import SubscriptionAction from "./SubscriptionAction";
+type Props = {isPro : boolean};
 type Input = z.infer<typeof courseSchema>;
 
-const CreateCourseForm = (props: Props) => {
+const CreateCourseForm = ({isPro}: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const form = useForm<Input>({
     resolver: zodResolver(courseSchema),
@@ -301,6 +302,8 @@ const CreateCourseForm = (props: Props) => {
           </Button>
         </form>
       </Form>
+      {!isPro && <SubscriptionAction />}
+      
     </div>
   );
 };
