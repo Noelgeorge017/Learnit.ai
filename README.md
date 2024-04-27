@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+### Title
+Learnit.ai: Revolutionizing Self-Learning with Personalized AI Curation
 
-First, run the development server:
+### Features
+* __AI-Powered Curation__: Our platform leverages advanced AI algorithms to curate highly relevant learning resources tailored to each user's unique needs, including captivating educational videos sourced from YouTube and concise summaries.
+* __Personalized Learning Paths__: Utilizing Next.js, Learnit.ai constructs structured learning paths that adapt in real-time based on the user's learning style and progress, ensuring a customized learning experience.
+* __Interactive Chatbot__: Our built-in chatbot, powered by ChatGPT, offers real-time support and assistance, helping users navigate challenges and clarify complex topics.
+* __Topic Specification__: Users can specify the topics they wish to cover, enabling precise customization of course content to align with their learning objectives.
+* __PDF Document Upload__: Seamless integration of additional educational materials into the learning curriculum by allowing users to upload PDF documents.
+* __Mindmap Generation__: Learnit.ai goes beyond traditional course structures by providing users with visual representations of course content through mindmap generation, fostering deeper comprehension and organization of complex concepts.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Technologies Used
+* __Next.js__: A powerful framework for dynamic content generation, used for constructing personalized learning paths and dynamic content rendering.
+* __Node.js__: Backend runtime environment for server-side logic and API integrations.
+* __NextAuth__: Authentication library for user authentication and authorization.
+* __AWS__: Cloud computing services utilized for storing files.
+* __Tailwind CSS__: A utility-first CSS framework for creating custom designs with ease.
+* __OpenAI API__: Utilized for AI-powered curation and chatbot functionality.
+* __YouTube API__: Integrated for sourcing educational videos seamlessly.
+* __Unsplash API__: Utilized for fetching images  for course to enhance the user experience.
+* __Prisma__: Database ORM for managing data and user profiles.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
+__1__.Clone the repository: git clone https://github.com/Noelgeorge017/Learnit.ai.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+__2__.Install dependencies: npm install (or yarn install).
 
-## Learn More
+__3__.Create a .env.local file and define environment variables:
+* OPENAI_API_KEY=<your_openai_api_key>.
+* DATABASE_URL: The URL of your database. Example: mongodb://localhost/mydatabase.
+* GOOGLE_CLIENT_ID: Client ID for Google OAuth authentication. Example: 1234567890-abcd1234efgh5678ijklmnopqrstuvwxyz.apps.googleusercontent.com.
+* GOOGLE_CLIENT_SECRET: Client secret for Google OAuth authentication. Example: AbCdEfGhIjKlMnOpQrStUvWxYz.
+* NEXTAUTH_SECRET: Secret used for NextAuth.js authentication. Example: mysecretkey.
+* NEXTAUTH_URL: URL of your Next.js application. Example: https://localhost:3000.
+* NEXT_PUBLIC_S3_ACCESS_KEY_ID: Access key ID for AWS S3 bucket (public). Example: AKIA1234567890.
+* NEXT_PUBLIC_S3_SECRET_ACCESS_KEY: Secret access key for AWS S3 bucket (public). Example: AbCdEfGhIjKlMnOpQrStUvWxYz1234567890.
+* NEXT_PUBLIC_S3_BUCKET_NAME: Name of your AWS S3 bucket (public). Example: my-bucket.
+* NEXT_PUBLIC_S3_REGION: AWS region where the S3 bucket is located. Example: us-east-1.
+* OPENAI_API_KEY: API key for OpenAI API. Example: sk-abcdefghijklmno1234567890.
+* UNSPLASH_API_KEY: API key for Unsplash API. Example: AbCdEfGhIjKlMnOpQrStUvWxYz1234567890.
+* YOUTUBE_API_KEY: API key for YouTube Data API. Example: AIzaSyD-1234567890.
+* STRIPE_API_KEY: API key for Stripe API. Example: sk_test_1234567890.
+* STRIPE_WEBHOOK_SECRET: Secret used for Stripe webhook verification. Example: whsec_1234567890.
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+__4__.Set up Prisma: https://www.prisma.io/docs/getting-started/setup-prisma.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+__5__.Start the development server: npm run dev (or yarn dev).
