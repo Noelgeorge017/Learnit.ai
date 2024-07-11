@@ -10,6 +10,10 @@ Learnit.ai: Revolutionizing Self-Learning with Personalized AI Curation
 * __PDF Document Upload__: Seamless integration of additional educational materials into the learning curriculum by allowing users to upload PDF documents.
 * __Mindmap Generation__: Learnit.ai goes beyond traditional course structures by providing users with visual representations of course content through mindmap generation, fostering deeper comprehension and organization of complex concepts.
 
+### Demo
+https://github.com/NazimFilzer/Learnit.ai/assets/98267566/33f88387-1440-46d2-94e6-b6f8a8335437
+
+
 
 ### Technologies Used
 * __Next.js__: A powerful framework for dynamic content generation, used for constructing personalized learning paths and dynamic content rendering.
